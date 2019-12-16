@@ -39,7 +39,7 @@ class Albums {
   }
 
   GridView getGridView(
-      String photoprismUrl) {
+      String photoprismUrl, Function refreshAlbumsPull) {
     GridView photosGridView = GridView.builder(
         key: ValueKey('albumsGridView'),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,7 +56,7 @@ class Albums {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          AlbumView(albumList[index], photoprismUrl)),
+                          AlbumView(albumList[index], photoprismUrl, refreshAlbumsPull)),
                 );
               },
               child: GridTile(

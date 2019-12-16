@@ -8,14 +8,16 @@ import '../main.dart';
 class AlbumView extends StatefulWidget {
   Album album;
   String photoprismUrl;
+  Function refreshAlbumsPull;
 
-  AlbumView(Album album, String photoprismUrl) {
+  AlbumView(Album album, String photoprismUrl, Function refreshAlbumsPull) {
     this.album = album;
     this.photoprismUrl = photoprismUrl;
+    this.refreshAlbumsPull = refreshAlbumsPull;
   }
 
   @override
-  _AlbumViewState createState() => _AlbumViewState(album, photoprismUrl);
+  _AlbumViewState createState() => _AlbumViewState(album, photoprismUrl, refreshAlbumsPull);
 }
 
 class _AlbumViewState extends State<AlbumView> {
@@ -28,12 +30,14 @@ class _AlbumViewState extends State<AlbumView> {
   Album album;
   String _albumTitle = "";
   TextEditingController _urlTextFieldController = TextEditingController();
+  Function refreshAlbumsPull;
 
-  _AlbumViewState(Album album, String photoprismUrl) {
+  _AlbumViewState(Album album, String photoprismUrl, Function refreshAlbumsPull) {
     this.album = album;
     this.photos = Photos.withAlbum(album);
     this._albumTitle = album.name;
     this.photoprismUrl = photoprismUrl;
+    this.refreshAlbumsPull = refreshAlbumsPull;
   }
 
   void _scrollListener() async {
@@ -102,12 +106,14 @@ class _AlbumViewState extends State<AlbumView> {
               ),
               FlatButton(
                 child: Text('Delete'),
-                onPressed: () {
+                onPressed: () async {
                   // close dialog
                   Navigator.pop(context);
 
                   // go back to albums
                   Navigator.pop(context);
+
+                  await refreshAlbumsPull();
                 },
               )
             ],

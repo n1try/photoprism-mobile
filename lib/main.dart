@@ -99,7 +99,7 @@ class _MainPageState extends State<MainPage> {
 
   void loadAlbums() async {
     await albums.loadAlbumsFromNetworkOrCache(photoprismUrl);
-    GridView gridView = albums.getGridView(photoprismUrl);
+    GridView gridView = albums.getGridView(photoprismUrl, refreshAlbumsPull);
     setState(() {
       _albumsGridView = gridView;
     });
